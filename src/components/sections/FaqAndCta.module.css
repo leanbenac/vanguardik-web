@@ -1,0 +1,228 @@
+.section {
+  padding: 80px 0 110px;
+  position: relative;
+}
+
+.faqContainer {
+  max-width: 860px;
+  margin: 0 auto 96px;
+}
+
+.header {
+  text-align: center;
+  margin-bottom: 44px;
+}
+
+.title {
+  font-family: var(--font-display);
+  font-size: clamp(1.85rem, 3.6vw, 2.6rem);
+  font-weight: 800;
+  letter-spacing: -0.02em;
+}
+
+.subtitle {
+  color: var(--text-secondary);
+  font-size: 1.05rem;
+  max-width: 580px;
+  margin: 12px auto 0;
+  line-height: 1.55;
+}
+
+.accordionList {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.faqItem {
+  border-radius: var(--radius-md);
+  background: rgba(12, 14, 22, 0.78);
+  border: 1px solid var(--border-subtle);
+  backdrop-filter: blur(16px);
+  overflow: hidden;
+  transition: border-color 0.25s ease;
+}
+
+.faqItemOpen {
+  border-color: rgba(6, 182, 212, 0.45);
+  box-shadow: 0 10px 35px rgba(0, 0, 0, 0.45);
+}
+
+.faqTrigger {
+  width: 100%;
+  padding: 20px 24px;
+  background: transparent;
+  border: none;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  text-align: left;
+  cursor: pointer;
+  color: var(--text-primary);
+  font-family: var(--font-display);
+  font-size: 1.05rem;
+  font-weight: 700;
+}
+
+.faqTrigger:hover {
+  color: var(--accent-cyan);
+}
+
+.chevronBox {
+  width: 30px;
+  height: 30px;
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  color: var(--accent-cyan);
+  transition: transform 0.25s ease, background 0.25s ease;
+}
+
+.chevronOpen {
+  transform: rotate(180deg);
+  background: rgba(6, 182, 212, 0.14);
+}
+
+.faqAnswer {
+  padding: 0 24px 22px;
+  color: var(--text-secondary);
+  font-size: 14.5px;
+  line-height: 1.65;
+}
+
+/* High-Impact Pre-Footer Conversion Banner with 3D Horizon */
+.ctaBanner {
+  position: relative;
+  border-radius: 26px;
+  padding: 64px 48px;
+  background:
+    radial-gradient(circle at 20% 20%, rgba(99, 102, 241, 0.2), transparent 60%),
+    radial-gradient(circle at 80% 80%, rgba(6, 182, 212, 0.16), transparent 60%),
+    rgba(10, 12, 20, 0.94);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  box-shadow:
+    0 30px 80px rgba(0, 0, 0, 0.7),
+    0 0 70px rgba(99, 102, 241, 0.12);
+  text-align: center;
+  overflow: hidden;
+  perspective: 900px;
+}
+
+.ctaPerspectiveFloor {
+  position: absolute;
+  bottom: -45%;
+  left: -20%;
+  right: -20%;
+  height: 75%;
+  background-image:
+    linear-gradient(to right, rgba(6, 182, 212, 0.16) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(99, 102, 241, 0.16) 1px, transparent 1px);
+  background-size: 48px 48px;
+  transform: rotateX(74deg);
+  transform-origin: center top;
+  mask-image: radial-gradient(ellipse 60% 65% at 50% 25%, #000 10%, transparent 75%);
+  -webkit-mask-image: radial-gradient(ellipse 60% 65% at 50% 25%, #000 10%, transparent 75%);
+  pointer-events: none;
+  z-index: 0;
+}
+
+.ctaPortalRing {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 540px;
+  height: 540px;
+  transform: translate(-50%, -50%) rotateX(68deg);
+  border-radius: 50%;
+  border: 1px dashed rgba(6, 182, 212, 0.28);
+  box-shadow: 0 0 60px rgba(6, 182, 212, 0.12);
+  pointer-events: none;
+  z-index: 0;
+}
+
+.ctaInnerContent {
+  position: relative;
+  z-index: 2;
+}
+
+.ctaBanner::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 10%;
+  right: 10%;
+  height: 2px;
+  background: linear-gradient(90deg, transparent, #6366f1, #06b6d4, #10b981, transparent);
+}
+
+.ctaTitle {
+  font-family: var(--font-display);
+  font-size: clamp(2rem, 4.2vw, 3.1rem);
+  font-weight: 800;
+  letter-spacing: -0.03em;
+  line-height: 1.15;
+  max-width: 760px;
+  margin: 0 auto 18px;
+}
+
+.ctaDesc {
+  color: var(--text-secondary);
+  font-size: 1.1rem;
+  max-width: 640px;
+  margin: 0 auto 34px;
+  line-height: 1.6;
+}
+
+.ctaPrimaryBtn {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding: 16px 34px;
+  border-radius: var(--radius-full);
+  background: linear-gradient(135deg, #6366f1 0%, #06b6d4 100%);
+  color: #ffffff;
+  font-weight: 700;
+  font-size: 16px;
+  border: none;
+  cursor: pointer;
+  box-shadow: 0 0 35px rgba(99, 102, 241, 0.5);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.ctaPrimaryBtn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 0 55px rgba(6, 182, 212, 0.75);
+}
+
+.guaranteeRow {
+  margin-top: 30px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+  flex-wrap: wrap;
+  font-size: 13.5px;
+}
+
+.guaranteeItem {
+  color: var(--text-secondary);
+  font-weight: 500;
+  letter-spacing: 0.01em;
+}
+
+.guaranteeDot {
+  color: rgba(6, 182, 212, 0.7);
+  font-size: 14px;
+}
+
+@media (max-width: 768px) {
+  .ctaBanner {
+    padding: 42px 24px;
+  }
+}
+

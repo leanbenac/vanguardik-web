@@ -1,0 +1,694 @@
+/* Outer Scroll Track for Z-Axis Camera Dive */
+.heroScrollTrack {
+  position: relative;
+  height: 220vh;
+  width: 100%;
+}
+
+/* Sticky 3D Camera Frustum Viewport */
+.stickyViewport {
+  position: sticky;
+  top: 66px;
+  height: calc(100vh - 66px);
+  width: 100%;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  perspective: 1100px;
+  background: radial-gradient(ellipse 75% 60% at 50% 45%,
+      rgba(14, 18, 34, 0.72) 0%,
+      var(--bg-primary) 82%);
+}
+
+/* 3D World Container that tilts with Mouse & plunges in Z on Scroll */
+.world3D {
+  position: relative;
+  z-index: 3;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transform-style: preserve-3d;
+  will-change: transform;
+}
+
+/* Subtle Perspective Floor Grid in X/Z Plane */
+.corridorFloor {
+  position: absolute;
+  bottom: -40%;
+  left: -25%;
+  right: -25%;
+  height: 85vh;
+  background-image:
+    linear-gradient(to right, rgba(6, 182, 212, 0.11) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(99, 102, 241, 0.12) 1px, transparent 1px);
+  background-size: 72px 72px;
+  transform: rotateX(78deg);
+  transform-origin: center top;
+  mask-image: radial-gradient(ellipse 60% 70% at 50% 25%, #000 10%, transparent 75%);
+  -webkit-mask-image: radial-gradient(ellipse 60% 70% at 50% 25%, #000 10%, transparent 75%);
+  pointer-events: none;
+}
+
+/* Concentric 3D Portal Frames in Z-Depth */
+.portalFrame {
+  position: absolute;
+  width: min(90vw, 1080px);
+  height: min(82vh, 560px);
+  border: 1px solid rgba(6, 182, 212, 0.22);
+  border-radius: 24px;
+  box-shadow:
+    0 0 40px rgba(6, 182, 212, 0.06),
+    inset 0 0 40px rgba(99, 102, 241, 0.06);
+  pointer-events: none;
+}
+
+.portalFrame::before,
+.portalFrame::after {
+  content: "";
+  position: absolute;
+  width: 22px;
+  height: 22px;
+  border-color: var(--accent-cyan);
+  border-style: solid;
+}
+
+.portalFrame::before {
+  top: -1px;
+  left: -1px;
+  border-width: 2px 0 0 2px;
+  border-top-left-radius: 24px;
+}
+
+.portalFrame::after {
+  bottom: -1px;
+  right: -1px;
+  border-width: 0 2px 2px 0;
+  border-bottom-right-radius: 24px;
+}
+
+/* Layer 1: Clean, Proportionally Fitted Foreground Hero Content */
+.foregroundLayer {
+  position: relative;
+  z-index: 5;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  max-width: 880px;
+  padding: 0 24px 20px;
+  will-change: transform, opacity;
+}
+
+.badgeWrapper {
+  margin-bottom: 20px;
+}
+
+.mainHeadline {
+  font-family: var(--font-display);
+  font-size: clamp(2.2rem, 4.6vw, 3.8rem);
+  font-weight: 800;
+  line-height: 1.08;
+  letter-spacing: -0.03em;
+  margin-bottom: 16px;
+  color: #ffffff;
+}
+
+.kineticWordWrapper {
+  display: inline-block;
+  position: relative;
+}
+
+.kineticGradientWord {
+  display: inline-block;
+  background: linear-gradient(95deg, #a5b4fc 0%, #38bdf8 48%, #34d399 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  filter: drop-shadow(0 0 22px rgba(56, 189, 248, 0.38)) drop-shadow(0 2px 10px rgba(0, 0, 0, 0.85));
+}
+
+.subHeadline {
+  font-size: clamp(0.95rem, 1.4vw, 1.08rem);
+  color: #94a3b8;
+  max-width: 580px;
+  line-height: 1.6;
+  margin-bottom: 0;
+  text-shadow: 0 2px 14px rgba(6, 7, 10, 0.95);
+}
+
+.actionRow {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.primaryBtn {
+  position: relative;
+  overflow: hidden;
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding: 12px 26px;
+  border-radius: var(--radius-full);
+  background: linear-gradient(135deg, #6366f1 0%, #06b6d4 100%);
+  color: #ffffff;
+  font-weight: 700;
+  font-size: 15px;
+  border: none;
+  cursor: pointer;
+  box-shadow: 0 0 28px rgba(99, 102, 241, 0.45);
+  transition: box-shadow 0.25s ease;
+}
+
+.primaryBtnLabel {
+  position: relative;
+  z-index: 2;
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.btnBreach {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  pointer-events: none;
+}
+
+.btnBreachSlice {
+  flex: 1;
+  background: rgba(255, 255, 255, 0.16);
+  transform: scaleX(0);
+  transform-origin: left center;
+  transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.btnBreachSlice:nth-child(2) {
+  transition-delay: 0.04s;
+  transform-origin: right center;
+}
+
+.btnBreachSlice:nth-child(3) {
+  transition-delay: 0.08s;
+}
+
+.primaryBtn:hover .btnBreachSlice {
+  transform: scaleX(1);
+}
+
+.primaryBtn:hover {
+  box-shadow: 0 0 45px rgba(6, 182, 212, 0.75);
+}
+
+.secondaryBtn {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding: 12px 26px;
+  border-radius: var(--radius-full);
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid transparent;
+  color: var(--text-primary);
+  font-weight: 600;
+  font-size: 15px;
+  cursor: pointer;
+  backdrop-filter: blur(14px);
+  transition: all 0.25s ease;
+}
+
+.btnFrame {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  overflow: visible;
+}
+
+.btnRectBase {
+  fill: none;
+  stroke: rgba(6, 182, 212, 0.26);
+  stroke-width: 1.25;
+}
+
+.btnRectDraw {
+  fill: none;
+  stroke: #38bdf8;
+  stroke-width: 1.6;
+  stroke-dasharray: 520;
+  stroke-dashoffset: 520;
+  transition: stroke-dashoffset 0.55s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.secondaryBtn:hover .btnRectDraw {
+  stroke-dashoffset: 0;
+}
+
+.secondaryBtn:hover {
+  background: rgba(6, 182, 212, 0.09);
+  box-shadow: 0 0 28px rgba(6, 182, 212, 0.25);
+}
+
+/* Layer 2: Editorial Architectural Services Stage (Redesigned & Minimalist) */
+.servicesStage {
+  position: absolute;
+  z-index: 6;
+  width: min(94vw, 1260px);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  will-change: transform, opacity;
+  padding: 0 16px;
+}
+
+/* ✦ NUESTROS SERVICIOS Badge */
+.servicesBadge {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 5px 18px;
+  border-radius: var(--radius-full, 9999px);
+  background: rgba(6, 182, 212, 0.06);
+  border: 1px solid rgba(6, 182, 212, 0.28);
+  color: var(--accent-cyan, #06b6d4);
+  font-family: var(--font-display, "Space Grotesk", sans-serif);
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  margin-bottom: 22px;
+  box-shadow: 0 0 20px rgba(6, 182, 212, 0.12);
+}
+
+.badgeSparkle {
+  color: #38bdf8;
+  font-size: 11px;
+}
+
+/* Section Title */
+.servicesTitle {
+  font-family: var(--font-display, "Space Grotesk", sans-serif);
+  font-size: clamp(2.1rem, 3.8vw, 3.5rem);
+  font-weight: 700;
+  line-height: 1.12;
+  letter-spacing: -0.035em;
+  color: #ffffff;
+  text-align: center;
+  margin: 0 auto 52px auto;
+  max-width: 860px;
+}
+
+.gradientSinLimites {
+  background: linear-gradient(135deg, #06b6d4 0%, #38bdf8 35%, #a855f7 72%, #c084fc 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  display: inline-block;
+  padding-right: 0.04em;
+}
+
+/* 4-Columns Architectural Cards Grid */
+.cardsGrid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 22px;
+  width: 100%;
+  max-width: 1220px;
+  margin: 0 auto;
+  align-items: stretch;
+}
+
+.cardSlot {
+  width: 100%;
+  height: 100%;
+  display: flex;
+}
+
+/* The Architectural Card Primitive - Static, Solid & Architectural (No nervous hover animations) */
+.archCard {
+  position: relative;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  text-align: left;
+  padding: 26px 24px 24px;
+  background: rgba(8, 12, 22, 0.74);
+  backdrop-filter: blur(28px);
+  -webkit-backdrop-filter: blur(28px);
+  min-height: 195px;
+  cursor: pointer;
+  clip-path: polygon(14px 0%,
+      100% 0%,
+      100% calc(100% - 14px),
+      calc(100% - 14px) 100%,
+      0% 100%,
+      0% 14px);
+  transition: background 0.25s ease, border-color 0.25s ease;
+  user-select: none;
+  outline: none;
+}
+
+.archCard:hover {
+  /* No translateY or jumping: stays completely anchored and calm */
+  background: rgba(11, 16, 28, 0.84);
+}
+
+.archCard:focus-visible {
+  box-shadow: 0 0 0 2px var(--accent-cyan), 0 0 24px rgba(6, 182, 212, 0.4);
+}
+
+/* Card Theme Palettes */
+.cardTheme1 {
+  --card-accent: #06b6d4;
+  --card-glow: rgba(6, 182, 212, 0.2);
+}
+
+.cardTheme2 {
+  --card-accent: #38bdf8;
+  --card-glow: rgba(56, 189, 248, 0.2);
+}
+
+.cardTheme3 {
+  --card-accent: #60a5fa;
+  --card-glow: rgba(96, 165, 250, 0.2);
+}
+
+.cardTheme4 {
+  --card-accent: #c084fc;
+  --card-glow: rgba(192, 132, 252, 0.25);
+}
+
+/* SVG Outline Frame with Top-Left Chamfer and Bottom-Right Glowing Corner */
+.cardFrameSvg {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  overflow: visible;
+}
+
+.frameBasePath {
+  transition: stroke 0.25s ease;
+}
+
+.archCard:hover .frameBasePath {
+  stroke: rgba(255, 255, 255, 0.14);
+}
+
+.frameAccentPath {
+  filter: drop-shadow(0 0 6px var(--card-accent));
+}
+
+/* Card Symbol Icon Wrapper */
+.cardSymbolRow {
+  margin-bottom: 18px;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+}
+
+.symbolSvg {
+  filter: drop-shadow(0 0 8px var(--card-glow));
+}
+
+/* Card Info (Title & Short Copy) */
+.cardInfo {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+}
+
+.cardHeading {
+  font-family: var(--font-display, "Space Grotesk", sans-serif);
+  font-size: 19px;
+  font-weight: 700;
+  color: #ffffff;
+  letter-spacing: -0.02em;
+  line-height: 1.22;
+  margin: 0;
+}
+
+.cardDesc {
+  font-family: var(--font-sans, "Plus Jakarta Sans", sans-serif);
+  font-size: 13.5px;
+  font-weight: 400;
+  color: #94a3b8;
+  line-height: 1.45;
+  margin: 8px 0 0 0;
+}
+
+/* Bottom Scroll Dive Indicator (Resident Evil Vertical Cue Style) */
+.diveIndicator {
+  position: absolute;
+  bottom: 10px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 10;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  pointer-events: none;
+}
+
+.cueLabel {
+  font-family: var(--font-display);
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.24em;
+  text-transform: uppercase;
+  color: var(--text-secondary);
+}
+
+.cueLine {
+  width: 1px;
+  height: 30px;
+  background: linear-gradient(to bottom,
+      var(--accent-cyan) 0%,
+      rgba(6, 182, 212, 0.05) 100%);
+  transform-origin: 50% 0%;
+  animation: cuePulse 2.2s infinite ease-in-out;
+}
+
+@keyframes cuePulse {
+
+  0%,
+  100% {
+    transform: scaleY(0.55);
+    opacity: 0.45;
+  }
+
+  50% {
+    transform: scaleY(1);
+    opacity: 1;
+  }
+}
+
+/* Tablet (769px - 1024px) */
+@media (max-width: 1024px) {
+  .servicesStage {
+    width: min(94vw, 780px);
+  }
+
+  .servicesTitle {
+    font-size: clamp(1.85rem, 3.4vw, 2.4rem);
+    margin-bottom: 30px;
+  }
+
+  .cardsGrid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 16px;
+    max-width: 680px;
+  }
+
+  .archCard {
+    min-height: 175px;
+    padding: 22px 20px 20px;
+  }
+
+  .cardSymbolRow {
+    margin-bottom: 14px;
+  }
+
+  .cardHeading {
+    font-size: 17.5px;
+  }
+
+  .cardDesc {
+    font-size: 13px;
+    margin-top: 6px;
+  }
+}
+
+/* Mobile (<= 768px) */
+@media (max-width: 768px) {
+  .heroScrollTrack {
+    height: 190vh;
+  }
+
+  .servicesStage {
+    width: 100%;
+    padding: 0 14px;
+  }
+
+  .servicesBadge {
+    padding: 4px 14px;
+    font-size: 10px;
+    letter-spacing: 0.14em;
+    margin-bottom: 14px;
+  }
+
+  .servicesTitle {
+    font-size: 1.55rem;
+    line-height: 1.18;
+    margin-bottom: 18px;
+    max-width: 380px;
+  }
+
+  .cardsGrid {
+    grid-template-columns: 1fr;
+    gap: 10px;
+    max-width: 440px;
+  }
+
+  .archCard {
+    min-height: auto;
+    padding: 13px 16px;
+    flex-direction: row;
+    align-items: center;
+    gap: 14px;
+    clip-path: polygon(10px 0%,
+        100% 0%,
+        100% calc(100% - 10px),
+        calc(100% - 10px) 100%,
+        0% 100%,
+        0% 10px);
+  }
+
+  .cardSymbolRow {
+    margin-bottom: 0;
+    flex-shrink: 0;
+  }
+
+  .symbolSvg {
+    width: 32px;
+    height: 32px;
+  }
+
+  .cardInfo {
+    margin-bottom: 0;
+    flex: 1;
+  }
+
+  .cardHeading {
+    font-size: 14.5px;
+    line-height: 1.2;
+  }
+
+  .cardHeading br {
+    display: none;
+  }
+
+  .cardDesc {
+    font-size: 12px;
+    margin-top: 2px;
+  }
+}
+
+/* XL Monitors (1440px - 1919px) */
+@media (min-width: 1440px) {
+  .foregroundLayer {
+    max-width: 1060px;
+    padding: 0 32px 24px;
+  }
+
+  .badgeWrapper {
+    margin-bottom: 24px;
+  }
+
+  .mainHeadline {
+    font-size: clamp(3.6rem, 4.4vw, 4.6rem);
+    line-height: 1.04;
+    letter-spacing: -0.035em;
+    margin-bottom: 18px;
+  }
+
+  .subHeadline {
+    max-width: 680px;
+    font-size: 1.18rem;
+    line-height: 1.6;
+  }
+
+  .cardsGrid {
+    max-width: 1300px;
+    gap: 24px;
+  }
+
+  .archCard {
+    padding: 30px 26px 26px;
+    min-height: 215px;
+  }
+
+  .cardHeading {
+    font-size: 21px;
+  }
+
+  .cardDesc {
+    font-size: 14px;
+  }
+}
+
+/* 2XL / Ultra-Wide Displays (1920px+) */
+@media (min-width: 1920px) {
+  .foregroundLayer {
+    max-width: 1240px;
+    padding: 0 40px 28px;
+  }
+
+  .badgeWrapper {
+    margin-bottom: 28px;
+  }
+
+  .mainHeadline {
+    font-size: clamp(4.4rem, 4.8vw, 5.5rem);
+    line-height: 1.02;
+    letter-spacing: -0.04em;
+    margin-bottom: 22px;
+  }
+
+  .subHeadline {
+    max-width: 760px;
+    font-size: 1.28rem;
+    line-height: 1.62;
+  }
+
+  .cardsGrid {
+    max-width: 1420px;
+    gap: 28px;
+  }
+
+  .archCard {
+    padding: 34px 28px 28px;
+    min-height: 230px;
+  }
+
+  .cardHeading {
+    font-size: 23px;
+  }
+
+  .cardDesc {
+    font-size: 15px;
+  }
+}

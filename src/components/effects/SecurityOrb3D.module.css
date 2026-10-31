@@ -1,0 +1,78 @@
+.orbWidget {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  padding: 12px 20px 12px 14px;
+  border-radius: 20px;
+  background: rgba(6, 9, 16, 0.85);
+  border: 1px solid rgba(16, 185, 129, 0.32);
+  box-shadow:
+    0 15px 40px rgba(0, 0, 0, 0.55),
+    0 0 35px rgba(16, 185, 129, 0.12);
+  backdrop-filter: blur(16px);
+}
+
+.canvasBox {
+  width: 84px;
+  height: 84px;
+  position: relative;
+  flex-shrink: 0;
+  border-radius: 50%;
+  background: radial-gradient(
+    circle at 50% 50%,
+    rgba(16, 185, 129, 0.18) 0%,
+    transparent 70%
+  );
+}
+
+.orbCanvas {
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+
+.telemetryCol {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.telemetryCode {
+  font-family: var(--font-display);
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--accent-cyan);
+}
+
+.telemetryTitle {
+  font-family: var(--font-display);
+  font-size: 13.5px;
+  font-weight: 800;
+  color: var(--text-primary);
+}
+
+.telemetryStatus {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 11.5px;
+  font-weight: 700;
+  color: #34d399;
+}
+
+.statusDot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: #10b981;
+  box-shadow: 0 0 8px #10b981;
+}
+
+@media (max-width: 640px) {
+  .orbWidget {
+    width: 100%;
+  }
+}
+

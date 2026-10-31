@@ -1,0 +1,299 @@
+/* Direct architectural adaptation of Resident Evil's <section class="route-map"> */
+.routeMapSection {
+  position: relative;
+  height: 210vh;
+  width: 100%;
+  background: var(--bg-primary);
+}
+
+.routeMapPin {
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  width: 100%;
+  overflow: hidden;
+  display: grid;
+  grid-template-columns: repeat(12, 1fr);
+  align-items: center;
+  padding: 88px max(24px, 4vw) 42px;
+}
+
+.routeCanvas {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  display: block;
+  pointer-events: none;
+  z-index: 1;
+}
+
+.routeScrim {
+  position: absolute;
+  inset: 0;
+  background:
+    linear-gradient(90deg, rgba(6, 7, 10, 0.94) 0%, rgba(6, 7, 10, 0.72) 48%, rgba(6, 7, 10, 0.28) 100%),
+    radial-gradient(circle at 72% 50%, transparent 20%, rgba(6, 7, 10, 0.85) 100%);
+  pointer-events: none;
+  z-index: 2;
+}
+
+/* Self-Drawing SVG Tactical Trajectory Arc */
+.routeArcSvg {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 3;
+}
+
+.routeArcPathBg {
+  fill: none;
+  stroke: rgba(6, 182, 212, 0.14);
+  stroke-width: 0.25;
+  stroke-dasharray: 1.2 1.2;
+}
+
+.routeArcPathGlow {
+  fill: none;
+  stroke: url(#vgk-route-arc-grad);
+  stroke-width: 1.35;
+  opacity: 0.24;
+  stroke-linecap: round;
+}
+
+.routeArcPathActive {
+  fill: none;
+  stroke: url(#vgk-route-arc-grad);
+  stroke-width: 0.42;
+  stroke-linecap: round;
+}
+
+/* Timed Spatial HUD Waypoints along the 3D Route Arc */
+.routeHudWaypoint {
+  position: absolute;
+  z-index: 4;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 6px 13px;
+  border-radius: 4px;
+  background: rgba(6, 8, 14, 0.88);
+  border-left: 2px solid var(--accent-cyan);
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+  border-right: 1px solid rgba(255, 255, 255, 0.08);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  font-family: var(--font-display);
+  pointer-events: none;
+  will-change: opacity, transform;
+}
+
+.hudOrigin {
+  top: 20%;
+  left: 52%;
+}
+
+.hudCheckpoint {
+  top: 48%;
+  left: 68%;
+}
+
+.hudDestination {
+  top: 75%;
+  left: 80%;
+}
+
+.hudStamp {
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 0.12em;
+  color: var(--accent-cyan);
+  padding-right: 8px;
+  border-right: 1px solid rgba(255, 255, 255, 0.15);
+}
+
+.hudLabel {
+  font-size: 11px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--text-primary);
+}
+
+/* Left-Side Editorial Copy Block (Columns 1 to 7) */
+.routeCopy {
+  grid-column: 1 / 7;
+  position: relative;
+  z-index: 5;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.routeKicker {
+  font-family: var(--font-display);
+  font-size: 11.5px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.18em;
+  color: var(--accent-cyan);
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.routeKicker::before {
+  content: "";
+  width: 24px;
+  height: 1px;
+  background: var(--accent-cyan);
+}
+
+/* 3-Line Kinetic Lede ("One night. / One hospital. / One way out." style) */
+.routeLede {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  font-family: var(--font-display);
+  font-size: clamp(2.1rem, 4.2vw, 3.6rem);
+  font-weight: 800;
+  line-height: 1.04;
+  letter-spacing: -0.03em;
+  color: #ffffff;
+}
+
+.ledeLine {
+  display: block;
+  overflow: hidden;
+}
+
+.ledeAccent {
+  color: var(--accent-cyan);
+}
+
+.routeBody {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  color: #cbd5e1;
+  font-size: 15.5px;
+  line-height: 1.65;
+  max-width: 540px;
+}
+
+/* Editorial Credits / Specs Grid (dl.route-map__credits) */
+.routeCredits {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 32px;
+  padding-top: 22px;
+  border-top: 1px solid rgba(255, 255, 255, 0.12);
+  max-width: 540px;
+}
+
+.creditItem dt {
+  font-family: var(--font-display);
+  font-size: 13px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.14em;
+  color: var(--text-muted);
+  margin-bottom: 6px;
+}
+
+.creditItem dd {
+  font-family: var(--font-display);
+  font-size: 17.5px;
+  font-weight: 700;
+  color: var(--text-primary);
+}
+
+.creditHighlight {
+  color: #34d399 !important;
+}
+
+/* Bottom-Left Telemetry Readout Bar */
+.routeReadout {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 16px;
+  padding-top: 8px;
+  font-family: var(--font-display);
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--text-secondary);
+}
+
+.routeReadout strong {
+  color: var(--accent-cyan);
+  font-weight: 700;
+}
+
+/* Bottom-Right Route Lock Timestamp Readout */
+.routeLock {
+  position: absolute;
+  bottom: 32px;
+  right: max(24px, 4vw);
+  z-index: 5;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 2px;
+  padding: 10px 16px;
+  background: rgba(6, 8, 14, 0.82);
+  border: 1px solid rgba(6, 182, 212, 0.28);
+  border-radius: 6px;
+  backdrop-filter: blur(12px);
+  font-family: var(--font-display);
+}
+
+.routeLock span {
+  font-size: 9.5px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.16em;
+  color: var(--text-muted);
+}
+
+.routeLock strong {
+  font-size: 1.15rem;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  color: var(--accent-cyan);
+  font-variant-numeric: tabular-nums;
+}
+
+@media (max-width: 960px) {
+  .routeCopy {
+    grid-column: 1 / 13;
+  }
+
+  .routeHudWaypoint {
+    display: none;
+  }
+
+  .routeScrim {
+    background: rgba(6, 7, 10, 0.82);
+  }
+}
+
+@media (max-width: 640px) {
+  .routeMapSection {
+    height: 180vh;
+  }
+
+  .routeCredits {
+    grid-template-columns: 1fr;
+    gap: 10px;
+  }
+
+  .routeLock {
+    bottom: 16px;
+    right: 16px;
+    padding: 7px 12px;
+  }
+}
+

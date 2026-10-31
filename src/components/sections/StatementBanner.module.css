@@ -1,0 +1,92 @@
+/* Direct Adaptation of <section class="statement statement--webgl-fog"> from Resident Evil Reference */
+.statement {
+  position: relative;
+  width: 100%;
+  min-height: 78vh;
+  padding: 120px 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  background:
+    radial-gradient(ellipse 70% 55% at 50% 50%,
+      rgba(99, 102, 241, 0.12) 0%,
+      rgba(6, 182, 212, 0.06) 42%,
+      var(--bg-primary) 80%);
+}
+
+.statementAsh {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 1;
+}
+
+.statementFlare {
+  position: absolute;
+  width: min(85vw, 960px);
+  height: min(55vh, 480px);
+  border-radius: 50%;
+  background: radial-gradient(ellipse at center,
+      rgba(6, 182, 212, 0.22) 0%,
+      rgba(99, 102, 241, 0.16) 42%,
+      transparent 74%);
+  filter: blur(48px);
+  pointer-events: none;
+  z-index: 1;
+  will-change: transform, opacity;
+}
+
+.statementInner {
+  position: relative;
+  z-index: 3;
+  max-width: 1200px;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+
+.statementText {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  margin: 0;
+}
+
+.statementLine {
+  display: block;
+  font-family: var(--font-display);
+  font-size: clamp(2.1rem, 6.2vw, 5.4rem);
+  font-weight: 800;
+  line-height: 1.04;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: #f8fafc;
+  text-shadow: 0 12px 42px rgba(0, 0, 0, 0.85);
+  will-change: filter, transform, opacity;
+}
+
+.statementLineAccent {
+  background: linear-gradient(95deg, #a5b4fc 0%, #38bdf8 48%, #34d399 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  text-shadow: none;
+  filter: drop-shadow(0 0 32px rgba(6, 182, 212, 0.35));
+}
+
+@media (max-width: 768px) {
+  .statement {
+    min-height: 60vh;
+    padding: 84px 16px;
+  }
+
+  .statementLine {
+    letter-spacing: 0.1em;
+  }
+}
