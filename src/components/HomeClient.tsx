@@ -9,7 +9,6 @@ import { ServicesBento } from "@/components/sections/ServicesBento";
 import { WorkflowComparison } from "@/components/sections/WorkflowComparison";
 import { CaseStudyShowcase } from "@/components/sections/CaseStudyShowcase";
 import { StatementBanner } from "@/components/sections/StatementBanner";
-import { ProofMetrics } from "@/components/sections/ProofMetrics";
 import { RoiSimulator } from "@/components/sections/RoiSimulator";
 import { SecurityArchitecture } from "@/components/sections/SecurityArchitecture";
 import { FaqAndCta } from "@/components/sections/FaqAndCta";
@@ -44,7 +43,6 @@ export const HomeClient: React.FC = () => {
         <WorkflowComparison />
         <CaseStudyShowcase onSelectCase={(title) => handleOpenInquiry(title)} />
         <StatementBanner />
-        <ProofMetrics />
         <RoiSimulator onTriggerInquiry={(details) => handleOpenInquiry(details)} />
         <SecurityArchitecture />
         <FaqAndCta onOpenInquiry={() => handleOpenInquiry()} />

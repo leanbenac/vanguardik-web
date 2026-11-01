@@ -2,6 +2,8 @@ import type { Metadata, Viewport } from "next";
 import { Plus_Jakarta_Sans, Space_Grotesk } from "next/font/google";
 import { siteConfig } from "@/config/site";
 import { SmoothScroll } from "@/components/providers/SmoothScroll";
+import { Analytics } from "@vercel/analytics/react";
+import { SpeedInsights } from "@vercel/speed-insights/next";
 import "./globals.css";
 
 const jakartaSans = Plus_Jakarta_Sans({
@@ -105,6 +107,8 @@ export default function RootLayout({
         <SmoothScroll>
           {children}
         </SmoothScroll>
+        <Analytics />
+        <SpeedInsights />
       </body>
     </html>
   );

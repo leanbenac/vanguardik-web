@@ -95,6 +95,17 @@ export const Navbar: React.FC<NavbarProps> = ({ onOpenInquiry }) => {
                 {item.label}
               </a>
             ))}
+            <button
+              onClick={() => {
+                setMobileMenuOpen(false);
+                onOpenInquiry();
+              }}
+              className={styles.mobileCtaButton}
+              aria-label="Abrir formulario de propuesta"
+            >
+              <span>Iniciar Proyecto</span>
+              <ArrowRight size={16} />
+            </button>
           </motion.nav>
         )}
       </AnimatePresence>

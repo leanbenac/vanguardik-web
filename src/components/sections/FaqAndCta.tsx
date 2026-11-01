@@ -2,7 +2,8 @@
 
 import React, { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { ChevronDown, ArrowRight } from "lucide-react";
+import { ChevronDown } from "lucide-react";
+import { CtaTacticalHorizon } from "./CtaTacticalHorizon";
 import styles from "./FaqAndCta.module.css";
 
 interface FaqAndCtaProps {
@@ -36,11 +37,12 @@ export const FaqAndCta: React.FC<FaqAndCtaProps> = ({ onOpenInquiry }) => {
   const [openIdx, setOpenIdx] = useState<number | null>(0);
 
   return (
-    <section
-      id="faq"
-      className={styles.section}
-      aria-labelledby="faq-section-title"
-    >
+    <>
+      <section
+        id="faq"
+        className={styles.section}
+        aria-labelledby="faq-section-title"
+      >
       <div className="container">
         {/* FAQ Accordion */}
         <div className={styles.faqContainer}>
@@ -96,50 +98,12 @@ export const FaqAndCta: React.FC<FaqAndCtaProps> = ({ onOpenInquiry }) => {
             })}
           </div>
         </div>
-
-        {/* Final High-Impact Conversion Banner with 3D Horizon Perspective */}
-        <motion.div
-          className={styles.ctaBanner}
-          initial={{ opacity: 0, y: 32, rotateX: 8, scale: 0.97 }}
-          whileInView={{ opacity: 1, y: 0, rotateX: 0, scale: 1 }}
-          viewport={{ once: true, amount: 0.25 }}
-          transition={{ duration: 0.65, ease: [0.16, 1, 0.3, 1] }}
-        >
-          {/* 3D Perspective Horizon Floor & Portal Ring */}
-          <div className={styles.ctaPerspectiveFloor} aria-hidden="true" />
-          <div className={styles.ctaPortalRing} aria-hidden="true" />
-
-          <div className={styles.ctaInnerContent}>
-            <h2 className={styles.ctaTitle}>
-              Construyamos la ventaja técnica de{" "}
-              <span className="gradient-text">tu empresa.</span>
-            </h2>
-
-            <p className={styles.ctaDesc}>
-              Conversá directamente con nuestro equipo de ingeniería. Analizamos
-              tus cuellos de botella y definimos la arquitectura ideal para tu equipo.
-            </p>
-
-            <button
-              onClick={onOpenInquiry}
-              className={styles.ctaPrimaryBtn}
-              id="footer-cta-inquiry-btn"
-            >
-              <span>Agendar Diagnóstico Técnico</span>
-              <ArrowRight size={18} />
-            </button>
-
-            <div className={styles.guaranteeRow}>
-              <span className={styles.guaranteeItem}>Código 100% propio</span>
-              <span className={styles.guaranteeDot}>•</span>
-              <span className={styles.guaranteeItem}>Acuerdo NDA garantizado</span>
-              <span className={styles.guaranteeDot}>•</span>
-              <span className={styles.guaranteeItem}>Respuesta en &lt; 24 hs</span>
-            </div>
-          </div>
-        </motion.div>
       </div>
     </section>
+
+      {/* High-Impact Tactical Scrollytelling Horizon for Building the Technical Advantage */}
+      <CtaTacticalHorizon onOpenInquiry={onOpenInquiry} />
+    </>
   );
 };
 

@@ -121,6 +121,7 @@ To add a new service to the agency:
 - **Strict Ban on Commits by AI**: The AI assistant MUST NEVER execute `git commit`, `git push`, `git rebase`, or any command that commits to git history.
 - **Human Authority**: Only Lean (the developer) has the authority to review diffs and create commits.
 - **Agent Scope**: The agent prepares code, styles, tests, runs validation commands (`npm run build`), and leaves files ready for user inspection.
+- **No Pestering**: The agent must NOT prompt or ask Lean to commit/push after every single turn. Only provide git instructions when Lean explicitly asks for them or when a major milestone is fully completed.
 
 ---
 
