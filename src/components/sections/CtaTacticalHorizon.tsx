@@ -50,10 +50,20 @@ export const CtaTacticalHorizon: React.FC<CtaTacticalHorizonProps> = ({
         canvas,
         alpha: true,
         antialias: !isMobile,
-        powerPreference: "high-performance",
+        powerPreference: "default",
       });
     } catch {
-      return;
+      try {
+        renderer = new THREE.WebGLRenderer({
+          canvas,
+          alpha: true,
+          antialias: false,
+          powerPreference: "default",
+        });
+      } catch (err) {
+        console.warn("CtaTacticalHorizon: WebGL initialization failed", err);
+        return;
+      }
     }
 
     renderer.setSize(width, height);

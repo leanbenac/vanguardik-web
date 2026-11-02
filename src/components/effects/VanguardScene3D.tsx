@@ -40,17 +40,27 @@ export const VanguardScene3D: React.FC<VanguardScene3DProps> = ({
     const baseCamZ = aspect > 1.85 ? 9.6 : (aspect < 1 ? 12.8 : 10.5);
     camera.position.set(0, 0, baseCamZ);
 
-    // 3. WebGL Renderer
+    // 3. WebGL Renderer with graceful fallback
     let renderer: THREE.WebGLRenderer;
     try {
       renderer = new THREE.WebGLRenderer({
         canvas,
         alpha: true,
         antialias: !isMobile,
-        powerPreference: "high-performance",
+        powerPreference: "default",
       });
     } catch {
-      return;
+      try {
+        renderer = new THREE.WebGLRenderer({
+          canvas,
+          alpha: true,
+          antialias: false,
+          powerPreference: "default",
+        });
+      } catch (err) {
+        console.warn("VanguardScene3D: WebGL initialization failed", err);
+        return;
+      }
     }
 
     renderer.setSize(width, height);

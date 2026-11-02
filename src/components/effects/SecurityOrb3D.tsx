@@ -26,10 +26,20 @@ export const SecurityOrb3D: React.FC = () => {
         canvas,
         alpha: true,
         antialias: true,
-        powerPreference: "high-performance",
+        powerPreference: "default",
       });
     } catch {
-      return;
+      try {
+        renderer = new THREE.WebGLRenderer({
+          canvas,
+          alpha: true,
+          antialias: false,
+          powerPreference: "default",
+        });
+      } catch (err) {
+        console.warn("SecurityOrb3D: WebGL initialization failed", err);
+        return;
+      }
     }
 
     renderer.setSize(size, size);
